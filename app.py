@@ -34,7 +34,7 @@ if search:
     result = collection.query(
         query_texts = query_text,
         include=["metadatas", 'distances'],
-        n_results=5
+        n_results=10
     )
     
     with st.spinner('Wait for it...'):
