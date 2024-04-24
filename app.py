@@ -24,8 +24,9 @@ def similar_title(query_text):
     sorted_data = sorted(zipped_data, key=lambda x: x[1], reverse=True)
     return sorted_data
 
-st.title('🔍 ShowFinder - Subtitle Based Search Engine')
-st.subheader('Say goodbye to endless scrolling and decision fatigue 😫')
+st.title('🔍 Beyond Keywords: Subtitle Search Revolution')
+st.subheader('Tired of video trailer roulette? 😫')
+st.subheader('Subtitle search: Your shortcut to the good stuff.🥁')
 
 query_text = st.text_input('Enter your search query:')
 search = st.button("Search")
