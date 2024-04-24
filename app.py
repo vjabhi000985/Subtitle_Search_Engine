@@ -1,14 +1,53 @@
-from flask import Flask, render_template, redirect, request, url_for
+import streamlit as st
+import chromadb
+import time
 
-app = Flask(__name__)
+# load the dataset
+path = "db"
 
-@app.route("/")
-def home():
-    return render_template('index.html')
+client = chromadb.PersistentClient(path=path)
+client.heartbeat()
+collection = client.get_collection(name="subtitle_sem")
+# print(client.heartbeat())
 
-@app.route("/search", methods=['GET','POST'])
-def search():
-    return render_template('result.html')
+def similar_title(query_text):
+    
+    result = collection.query(
+        query_texts=query_text,
+        include=["metadatas", "distances"],
+        n_results=5
+    )
+    ids = result['ids'][0]
+    distances = result['distances'][0]
+    metadatas = result['metadatas'][0]
+    zipped_data = zip(metadatas, ids, distances)
+    sorted_data = sorted(zipped_data, key=lambda x: x[1], reverse=True)
+    return sorted_data
 
-if __name__ == '__main__':
-    app.run(debug=True)
+st.title('🔍 ShowFinder - Subtitle Based Search Engine')
+st.subheader('Say goodbye to endless scrolling and decision fatigue 😫')
+
+query_text = st.text_input('Enter your search query:')
+search = st.button("Search")
+if search:
+    result = collection.query(
+        query_texts = query_text,
+        include=["metadatas", 'distances'],
+        n_results=5
+    )
+    
+    with st.spinner('Wait for it...'):
+        time.sleep(5)
+    
+    st.success('Here are the most relevant subtitle names:')
+    ids = result['ids'][0]
+    distances = result['distances'][0]
+    metadatas = result['metadatas'][0]
+    zipped_data = zip(ids, distances, metadatas)
+    sorted_data = sorted(zipped_data, key=lambda x: x[1], reverse=True)
+
+    for metadata, ids, distance in sorted_data:
+        subtitle_name = metadata['subtitle_name']
+        subtitle_id = metadata['subtitle_id']
+        subtitle_link = f"https://www.opensubtitles.org/en/subtitles/{subtitle_id}"
+        st.markdown(f"[{subtitle_name}]({subtitle_link})")
