@@ -1,9 +1,11 @@
 # Subtitle_Search_Engine
 The subtitle based search engine leverages pre-trained sentence transformers (all-MiniLM-L6-v2) to understand subtitle meaning. Text preprocessing and efficient encoding enable semantic search, allowing users to find subtitles based on concepts, not just keywords. It utilizes database indexing for fast retrieval.
 
-## The Challenge: Finding relevant information within videos can be cumbersome. Traditional search engines often struggle to capture the nuances of spoken language.
+## The Challenge:
+Finding relevant information within videos can be cumbersome. Traditional search engines often struggle to capture the nuances of spoken language.
 
-## The Solution: This project delves into the world of Natural Language Processing (NLP) and Semantic Search to unlock the power of video subtitles.
+## The Solution: 
+This project delves into the world of Natural Language Processing (NLP) and Semantic Search to unlock the power of video subtitles.
 
 ## Here's the Breakdown:
 - `Embracing Subtitles`: We leverage video subtitles as a rich source of textual information.
